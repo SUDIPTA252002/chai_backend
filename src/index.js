@@ -1,12 +1,31 @@
 import dotenv from "dotenv";
 import dbconnect from "./db/index.js";
+import app from "./app.js"
+
+//async function returns a promise
 dbconnect()
+.then(()=>{
+
+    app.on("error",(err)=>{
+        console.log("ERR",err)
+        process.exit(1)
+    })
+    app.listen(process.env.PORT,()=>
+    {
+        console.log(`SERVER IS LISTENING TO ${process.env.PORT}`)
+    })
+})
+.catch((err)=>{
+    console.log("DB FAILED TO CONNECT",err)
+})                                                                 
 
 dotenv.config(
     {
         path:'./env'
     }
 )
+
+
 
 
 
